@@ -11,6 +11,8 @@ function generateClientId(): string {
   });
 }
 
+const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '');
+
 const DEFAULT_SETTINGS: VoiceSettings = {
   mode: 'model',
   model: 'gpt-realtime',
@@ -61,7 +63,7 @@ export function useVoiceSession() {
 
   // Fetch server config and languages on mount
   useEffect(() => {
-    fetch('/config')
+    fetch(`${BACKEND_URL}/config`)
       .then((res) => res.json())
       .then((cfg) => {
         setSettings((prev) => {
@@ -91,7 +93,7 @@ export function useVoiceSession() {
         setConfigLoaded(true);
       });
 
-    fetch('/languages')
+    fetch(`${BACKEND_URL}/languages`)
       .then((res) => res.json())
       .then((data) => {
         if (data.azureSpeechLocales?.length) {
@@ -209,8 +211,14 @@ export function useVoiceSession() {
     // Init playback context early (needs user gesture)
     await initPlayback();
 
-    const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${location.host}/ws/${clientIdRef.current}`;
+    let wsUrl: string;
+    if (BACKEND_URL) {
+      const wsBase = BACKEND_URL.replace(/^http/, 'ws');
+      wsUrl = `${wsBase}/ws/${clientIdRef.current}`;
+    } else {
+      const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      wsUrl = `${protocol}//${location.host}/ws/${clientIdRef.current}`;
+    }
 
     try {
       const ws = new WebSocket(wsUrl);
