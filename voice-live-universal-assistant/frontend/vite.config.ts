@@ -14,6 +14,9 @@ export default defineConfig({
   define: {
     __BACKEND_URL__: JSON.stringify(backendUrl),
   },
+  optimizeDeps: {
+    include: ['@fluentui/react-toast'],
+  },
   server: {
     proxy: {
       '/ws': {
@@ -28,5 +31,8 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
+    commonjsOptions: {
+      include: [/node_modules/],
+    },
   },
 });

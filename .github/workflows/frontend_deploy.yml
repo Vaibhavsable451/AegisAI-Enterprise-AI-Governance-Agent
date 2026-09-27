@@ -24,21 +24,15 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9
-          run_install: false
-
       - name: Install dependencies
         working-directory: voice-live-universal-assistant/frontend
-        run: pnpm install
+        run: npm install --legacy-peer-deps
 
       - name: Build frontend
         working-directory: voice-live-universal-assistant/frontend
         env:
           VITE_BACKEND_URL: https://aegisai-hucpdtcvfxd2dnbs.westus3-01.azurewebsites.net
-        run: pnpm build
+        run: npm run build
 
       - name: Copy server.js and package.json to dist
         working-directory: voice-live-universal-assistant/frontend
@@ -59,3 +53,4 @@ jobs:
           app-name: 'aegisai-frontend-h7aha4ephncxhvg3'
           slot-name: 'Production'
           package: voice-live-universal-assistant/frontend/dist
+
