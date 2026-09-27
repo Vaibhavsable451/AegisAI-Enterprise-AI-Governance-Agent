@@ -39,18 +39,18 @@ In 2026, AI governance is no longer optional. AegisAI is the shield your enterpr
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    AegisAI Platform                          │
-│                                                             │
-│   ┌─────────────┐   ┌──────────────┐   ┌───────────────┐  │
-│   │  Governance  │   │  Policy      │   │  Compliance   │  │
-│   │  Agent (LLM) │──▶│  Engine      │──▶│  Reporter     │  │
-│   └─────────────┘   └──────────────┘   └───────────────┘  │
-│          │                  │                   │           │
-│   ┌─────────────┐   ┌──────────────┐   ┌───────────────┐  │
-│   │  Risk        │   │  Audit       │   │  Dashboard    │  │
-│   │  Scanner     │   │  Trail (S3)  │   │  (React+TS)   │  │
-│   └─────────────┘   └──────────────┘   └───────────────┘  │
-│                                                             │
-│   Cloud: AWS · Azure AI Foundry · GCP Vertex AI            │
+│                                                               │
+│   ┌─────────────┐   ┌──────────────┐   ┌───────────────┐    │
+│   │  Governance  │   │  Policy      │   │  Compliance   │    │
+│   │  Agent (LLM) │──▶│  Engine      │──▶│  Reporter     │    │
+│   └─────────────┘   └──────────────┘   └───────────────┘    │
+│          │                  │                   │            │
+│   ┌─────────────┐   ┌──────────────┐   ┌───────────────┐    │
+│   │  Risk        │   │  Audit       │   │  Dashboard    │    │
+│   │  Scanner     │   │  Trail (S3)  │   │  (React+TS)   │    │
+│   └─────────────┘   └──────────────┘   └───────────────┘    │
+│                                                               │
+│   Cloud: AWS · Azure AI Foundry · GCP Vertex AI              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
