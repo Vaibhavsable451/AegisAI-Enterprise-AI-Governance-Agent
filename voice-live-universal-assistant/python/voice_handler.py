@@ -260,6 +260,16 @@ class VoiceLiveHandler:
         self._event_task: Optional[asyncio.Task] = None
         self._assistant_transcript = ""
 
+        # FIX: local tracking of whether a response is currently in-flight.
+        # response.cancel() only *requests* cancellation — the server confirms
+        # it later via RESPONSE_DONE. Calling response.create() before that
+        # confirmation arrives causes "Conversation already has an active
+        # response." So instead of cancel-then-immediately-create, we cancel
+        # and defer the new turn until RESPONSE_DONE actually confirms the
+        # previous response is finished.
+        self._response_active = False
+        self._pending_user_text: Optional[str] = None
+
     # ------------------------------------------------------------------
     # Public API
     # ------------------------------------------------------------------
@@ -286,18 +296,42 @@ class VoiceLiveHandler:
                 logger.debug(f"[{self.client_id}] No response to cancel: {e}")
 
     async def send_text(self, text: str) -> None:
-        """Send a text message via Voice Live (conversation.item.create + response.create)."""
-        if self.connection and text.strip():
+        """Send a text message via Voice Live (conversation.item.create + response.create).
+
+        FIX: previously this always called response.cancel() and then
+        immediately conversation.item.create()/response.create(), racing
+        ahead of the server's cancellation confirmation and triggering
+        "Conversation already has an active response." Now: if no response
+        is active, send immediately as before. If one IS active, cancel it
+        and stash the text — it gets sent from the RESPONSE_DONE handler
+        once the server confirms the previous response actually finished.
+        """
+        text = text.strip()
+        if not self.connection or not text:
+            return
+
+        if self._response_active:
+            self._pending_user_text = text
             try:
-                await self.connection.conversation.item.create(
-                    item=MessageItem(
-                        role="user",
-                        content=[InputTextContentPart(text=text.strip())],
-                    )
-                )
-                await self.connection.response.create()
+                await self.connection.response.cancel()
             except Exception as e:
-                logger.error(f"[{self.client_id}] Error sending text: {e}")
+                logger.debug(f"[{self.client_id}] Cancel before send_text failed/no-op: {e}")
+            return
+
+        await self._create_user_turn(text)
+
+    async def _create_user_turn(self, text: str) -> None:
+        """Actually push a user message item and start a response for it."""
+        try:
+            await self.connection.conversation.item.create(
+                item=MessageItem(
+                    role="user",
+                    content=[InputTextContentPart(text=text)],
+                )
+            )
+            await self.connection.response.create()
+        except Exception as e:
+            logger.error(f"[{self.client_id}] Error sending text: {e}")
 
     async def stop(self) -> None:
         """Gracefully shut down the handler."""
@@ -479,6 +513,7 @@ class VoiceLiveHandler:
 
         # -- Response lifecycle -------------------------------------------
         elif t == ServerEventType.RESPONSE_CREATED:
+            self._response_active = True
             await self.send({"type": "status", "state": "speaking"})
 
         elif t == ServerEventType.RESPONSE_AUDIO_DELTA:
@@ -496,6 +531,10 @@ class VoiceLiveHandler:
             logger.debug(f"[{self.client_id}] Audio response complete")
 
         elif t == ServerEventType.RESPONSE_DONE:
+            # The server has now confirmed the previous response (whether it
+            # completed normally or was cancelled) is truly finished.
+            self._response_active = False
+
             # Flush accumulated assistant transcript as final
             if self._assistant_transcript:
                 await self.send({
@@ -506,6 +545,13 @@ class VoiceLiveHandler:
                 })
                 self._assistant_transcript = ""
             await self.send({"type": "status", "state": "listening"})
+
+            # FIX: if the user sent a new message while the old response was
+            # still in flight, it's safe to actually create it now.
+            if self._pending_user_text:
+                pending = self._pending_user_text
+                self._pending_user_text = None
+                await self._create_user_turn(pending)
 
         # -- Transcription ------------------------------------------------
         elif t == ServerEventType.CONVERSATION_ITEM_INPUT_AUDIO_TRANSCRIPTION_COMPLETED:
