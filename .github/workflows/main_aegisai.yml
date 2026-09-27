@@ -1,6 +1,5 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
 name: Build and deploy Python app to Azure Web App - AegisAI
 
@@ -24,23 +23,24 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Create virtual environment and install dependencies
+      - name: Install dependencies into antenv
         working-directory: voice-live-universal-assistant/python
         run: |
           python -m venv antenv
           source antenv/bin/activate
+          pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Upload artifact for deployment jobs
+      - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
             voice-live-universal-assistant/python/
-            !voice-live-universal-assistant/python/antenv/
             !voice-live-universal-assistant/python/.venv/
             !voice-live-universal-assistant/python/logs/
             !voice-live-universal-assistant/python/__pycache__/
+            !voice-live-universal-assistant/python/.env
 
   deploy:
     runs-on: ubuntu-latest
