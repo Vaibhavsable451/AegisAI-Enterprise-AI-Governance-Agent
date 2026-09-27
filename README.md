@@ -1,139 +1,233 @@
-# Azure AI Speech Service - Voice Live Samples
+# 🛡️ AegisAI — Enterprise AI Governance Agent
 
-This repository contains sample code and resources for working with Azure AI Speech Service Voice Live.
+> **Intelligent. Auditable. Trustworthy.**
+> An enterprise-grade AI governance framework for responsible deployment, monitoring, and compliance of AI systems — built for 2026 and beyond.
 
-## Overview
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://python.org)
+[![AWS](https://img.shields.io/badge/AWS-Powered-FF9900?logo=amazonaws&logoColor=white)](https://aws.amazon.com)
+[![Azure](https://img.shields.io/badge/Azure-AI%20Foundry-0078D4?logo=microsoftazure&logoColor=white)](https://azure.microsoft.com)
+[![Status](https://img.shields.io/badge/Status-Active-brightgreen)](https://github.com/Vaibhavsable451/AegisAI-Enterprise-AI-Governance-Agent)
 
-Voice Live enables real-time voice interactions using Azure AI Speech Service. These samples demonstrate how to integrate Voice Live into your applications for various scenarios including conversational AI, voice assistants, and interactive voice experiences.
+---
 
-## Features
+## 🌐 Overview
 
-- Real-time voice interaction samples
-- Integration examples with Azure AI Speech Service
-- Best practices for Voice Live implementation
-- Sample code for common use cases
-- Agent skills for guided development workflows
+**AegisAI** is a comprehensive, cloud-native AI governance platform designed to help enterprises govern, audit, and align their AI deployments with global regulatory standards. AegisAI provides real-time risk assessment, policy enforcement, explainability dashboards, and automated compliance reporting — all powered by cutting-edge LLM agents and multi-cloud infrastructure.
 
-## Getting Started
+In 2026, AI governance is no longer optional. AegisAI is the shield your enterprise AI strategy needs.
+
+---
+
+## ✨ Key Features
+
+| Feature | Description |
+|---|---|
+| 🔍 **AI Risk Assessment** | Automated scanning and scoring of AI models for bias, fairness, and regulatory risk |
+| 📋 **Policy Engine** | Define, version, and enforce organizational AI usage policies with fine-grained controls |
+| 🧠 **LLM Governance Agent** | Intelligent agent that monitors, explains, and corrects AI decisions in real time |
+| 📊 **Compliance Dashboard** | Visual reporting for EU AI Act, ISO 42001, NIST AI RMF, and internal standards |
+| 🔐 **Audit Trail** | Immutable, tamper-proof logs of every AI inference, decision, and policy event |
+| 🚨 **Anomaly Detection** | Real-time alerting for model drift, hallucinations, and policy violations |
+| 🌍 **Multi-Cloud Support** | Seamlessly integrates with AWS, Azure, and GCP AI services |
+| 🤝 **Human-in-the-Loop** | Escalation workflows and human approval gates for high-stakes decisions |
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    AegisAI Platform                          │
+│                                                             │
+│   ┌─────────────┐   ┌──────────────┐   ┌───────────────┐  │
+│   │  Governance  │   │  Policy      │   │  Compliance   │  │
+│   │  Agent (LLM) │──▶│  Engine      │──▶│  Reporter     │  │
+│   └─────────────┘   └──────────────┘   └───────────────┘  │
+│          │                  │                   │           │
+│   ┌─────────────┐   ┌──────────────┐   ┌───────────────┐  │
+│   │  Risk        │   │  Audit       │   │  Dashboard    │  │
+│   │  Scanner     │   │  Trail (S3)  │   │  (React+TS)   │  │
+│   └─────────────┘   └──────────────┘   └───────────────┘  │
+│                                                             │
+│   Cloud: AWS · Azure AI Foundry · GCP Vertex AI            │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- [Azure subscription](https://azure.microsoft.com/free/) - Create one for free
-- [AI Foundry resource](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource)
-- Basic knowledge of your preferred programming language
+- Python 3.10+
+- Node.js 20+ (for the frontend dashboard)
+- AWS Account or Azure Subscription
+- Docker & Docker Compose (optional, for local stack)
 
 ### Installation
 
-1. Clone this repository:
+1. **Clone this repository:**
    ```bash
-   git clone https://github.com/microsoft-foundry/voicelive-samples.git
-   cd voicelive-samples
+   git clone https://github.com/Vaibhavsable451/AegisAI-Enterprise-AI-Governance-Agent.git
+   cd AegisAI-Enterprise-AI-Governance-Agent
    ```
 
-2. Follow the instructions in individual sample directories for specific setup requirements.
+2. **Set up environment variables:**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your cloud credentials and API keys
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   npm install --prefix frontend
+   ```
+
+4. **Run locally with Docker:**
+   ```bash
+   docker-compose up --build
+   ```
 
 ### Quickstart
 
-1. **Choose your language**: Select from [C#](./csharp/README.md), [Python](./python/README.md), or other available languages
-2. **Follow language-specific setup**: Each language folder has detailed setup instructions
-3. **Configure credentials**: Set up your Azure resources and authentication
-4. **Run a sample**: Start with a quickstart sample to see Voice Live in action
+```python
+from aegisai import GovernanceAgent
 
-For detailed quickstart guides, see the README in your chosen language folder.
+agent = GovernanceAgent(
+    policy_config="policies/enterprise_defaults.yaml",
+    cloud="aws"  # or "azure", "gcp"
+)
 
-## Samples by Language
+# Evaluate an AI model decision
+result = agent.evaluate(
+    model_id="my-llm-v2",
+    input_prompt="...",
+    output="...",
+)
 
-This repository contains samples in multiple programming languages. Choose your preferred language to get started:
+print(result.risk_score)      # 0-100 risk rating
+print(result.policy_status)   # PASS / WARN / BLOCK
+print(result.explanation)     # Human-readable explanation
+```
 
-### [C# Samples](./csharp/README.md)
-Complete C# samples demonstrating:
-- **Agent Quickstart**: Connect to Azure AI Foundry agents with proactive greetings
-- **Agents New Quickstart**: Create and run Voice Live-enabled Foundry Agents (new SDK patterns)
-- **MCP Quickstart**: MCP server integration with remote tool calling and approval flow
-- **Model Quickstart**: Direct VoiceLive model integration
-- **Bring-Your-Own-Model (BYOM) Quickstart**: Use your own models hosted in Foundry with proactive greetings
-- **Customer Service Bot**: Advanced function calling for customer service scenarios and proactive greetings
-- Built with .NET 9.0 and self-contained code
+---
 
-### [Python Samples](./python/)
-Python samples showcasing:
-- **Agent Quickstart**: Azure AI Foundry agent integration with proactive greetings
-- **Agents New Quickstart**: Voice Live + Foundry Agent v2 samples and agent-creation utility
-- **MCP Quickstart**: MCP server integration with remote tool calling and approval flow
-- **Model Quickstart**: Direct model access with flexible authentication
-- **Bring-Your-Own-Model (BYOM) Quickstart**: Use your own models hosted in Foundry with proactive greetings
-- **Function Calling**: Advanced tool integration with custom functions and proactive greetings
-- **Telemetry Quickstart**: OpenTelemetry tracing — console export, Azure Monitor, custom attributes, and content recording
-- **RAG-enabled Voice Assistant**: Full-stack voice assistant with Azure AI Search integration and `azd` deployment
-- **Voice Live Avatar**: Avatar-enabled voice conversations with server-side SDK and Docker deployment
-- Built with Python 3.8+ and async/await patterns
+## 📦 Project Structure
 
-### [JavaScript Samples](./javascript/)
-JavaScript/TypeScript samples showcasing:
-- **Agents New Quickstart**: Node.js Voice Live + Foundry Agent v2 sample and agent-creation utility
-- **MCP Quickstart**: MCP server integration with remote tool calling and approval flow
-- **Model Quickstart**: Direct Voice Live model integration with proactive greetings
-- **Basic Web Voice Assistant**: Browser-based voice assistant with real-time streaming and barge-in support
-- **Voice Live Education Demo**: Browser-based English pronunciation coach that pairs Voice Live with the Azure Speech SDK for real-time pronunciation assessment (Conversation / Concise / Read Along scenarios)
-- **Live Reference AEC**: Browser sample that streams the mic plus the app's own speaker playback as a stereo reference so the service can cancel echo against the exact signal played
-- **Voice Live Avatar**: Avatar-enabled voice conversations with Docker deployment
-- **Voice Live Car Demo**: Voice-Enabled Car Assistant powered by multiple architectures
-- **Voice Live Interpreter**: Real-time speech translation, speech in and speech out
-- **Voice Live Trader**: Real-time trading assistant for stock fund crypto FX trading app
-- Built with TypeScript and Web Audio API
+```
+AegisAI-Enterprise-AI-Governance-Agent/
+├── aegisai/                  # Core Python package
+│   ├── agent/                # LLM Governance Agent logic
+│   ├── policy/               # Policy engine and rule definitions
+│   ├── risk/                 # Risk scanner and bias detection
+│   ├── audit/                # Audit trail (S3 / Azure Blob)
+│   └── compliance/           # Report generators (EU AI Act, NIST, ISO)
+├── frontend/                 # React + TypeScript dashboard
+├── infra/                    # IaC (AWS CDK / Bicep / Terraform)
+├── policies/                 # Sample policy YAML configurations
+├── skills/                   # Agent skills for IDE integrations
+├── voice-live-universal-assistant/  # Voice interface for governance workflows
+├── tests/                    # Unit, integration & E2E tests
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
+```
 
-### [Java Samples](./java/)
-Java samples  showcasing:
-- **Agents New Quickstart**: Voice Live + Foundry Agent v2 sample and agent-creation utility
-- **MCP Quickstart**: MCP server integration with remote tool calling and approval flow
-- **Model Quickstart**: Direct model access with flexible authentication
-- Built with Java 11+ and Maven
+---
 
-### [Voice Live Universal Assistant](./voice-live-universal-assistant/)
-Full-stack web application with a **shared React+Vite+TypeScript frontend** and per-language backend implementations:
-- **Shared frontend**: Fluent-aligned design system (light/dark/system themes), voice orb visualization, CC transcript, voice type selection (OpenAI + Azure Standard)
-- **Python backend**: FastAPI + WebSocket proxy with Agent and Model mode support
-- **Java backend**: Spring Boot + WebSocket proxy with Agent and Model mode support
-- **JavaScript, C# backends**: Planned
-- **Backend selection**: Set `BACKEND_LANGUAGE` at deploy time (`python`, `java`, `javascript`, `csharp`) — frontend is shared and language-agnostic
-- **Connection modes**: Model mode (default — works with just a Foundry endpoint) or Agent mode (auto-set when deploying with `CREATE_AGENT=true`)
-- **Azure deployment**: Full `azd up` infrastructure with Bicep IaC — Container Apps, ACR, RBAC, optional AI Foundry provisioning, and optional Foundry Agent creation with GPT-4.1-mini
-- 91 unit tests + E2E audio test
+## 🌐 Multi-Language Voice Interface
 
-Each language folder contains detailed setup instructions, configuration examples, and troubleshooting guides specific to that language and platform.
+AegisAI includes a **Voice Live Universal Assistant** — a full-stack voice interface for interacting with governance workflows hands-free:
 
-## Agent Skills
+- **Frontend**: React + Vite + TypeScript with Fluent design system (light/dark/system themes)
+- **Python Backend**: FastAPI + WebSocket proxy
+- **Java Backend**: Spring Boot + WebSocket proxy
+- **JavaScript Backend**: Node.js + Express
+- **C# Backend**: ASP.NET Core
+- **Azure Voice Live**: Real-time AI voice interactions powered by Azure AI Speech Service
+- **Deployment**: Full `azd up` support with Bicep IaC — Container Apps, ACR, RBAC
 
-This repository includes Agent Skills that help coding agents implement and troubleshoot supported Azure AI Speech scenarios. Additional skills will be added here as they become available.
+---
 
-### [Azure Avatar Integration](./skills/azure-avatar-integrate/README.md)
-Agent Skill for planning, building, validating, and troubleshooting Azure AI Speech Avatar integrations:
-- **Batch Synthesis**: Generate downloadable avatar videos from text or SSML
-- **Real-time Speech SDK**: Add a live talking avatar to an existing application or conversational pipeline
-- **Voice Live**: Build an interactive avatar that listens and responds with synchronized speech and video
-- **Troubleshooting**: Diagnose authentication, WebRTC, connection, playback, and session issues
+## 📊 Compliance Standards Supported
 
-## Documentation
+- 🇪🇺 **EU AI Act (2024–2026)** — Risk classification, transparency, and conformity assessment
+- 🇺🇸 **NIST AI RMF** — Govern, Map, Measure, Manage framework
+- 🌍 **ISO/IEC 42001:2023** — AI Management Systems standard
+- 🏢 **Custom Enterprise Policies** — Define your own YAML-based governance rules
 
-- [Azure AI Speech Service - Voice Live Documentation](https://learn.microsoft.com/azure/ai-services/speech-service/voice-live)
+---
 
-## Contributing
+## 🧩 Agent Skills
 
-We welcome contributions! Please see our [Contributing Guidelines](SUPPORT.md#contributing) for details.
+AegisAI ships with IDE-integrated **Agent Skills** for developers:
 
-Please note that this project follows the [Microsoft Open Source Code of Conduct](CODE_OF_CONDUCT.md).
+### 🛡️ [AI Governance Skill](./skills/ai-governance/README.md)
+Helps agents plan, implement, and validate AI governance controls:
+- **Policy Authoring**: Generate policy YAML from plain-English descriptions
+- **Risk Review**: Automated pre-deployment risk reports
+- **Audit Queries**: Natural language queries over audit logs
+- **Compliance Checks**: Validate configurations against regulatory frameworks
 
-## Resources
+### 🎙️ [Azure Avatar Integration](./skills/azure-avatar-integrate/README.md)
+Voice-enabled governance interactions:
+- **Real-time Speech SDK**: Live talking avatar for governance reviews
+- **Batch Synthesis**: Generate compliance briefing videos
+- **Troubleshooting**: Diagnose authentication, WebRTC, and session issues
 
-- [Support](SUPPORT.md) - Get help and file issues
-- [Security](SECURITY.md) - Security policy and reporting vulnerabilities
+---
 
-## License
+## 🛠️ Tech Stack
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+| Layer | Technology |
+|---|---|
+| **AI / LLM** | Azure AI Foundry, AWS Bedrock, OpenAI GPT-4.1 |
+| **Backend** | Python (FastAPI), Java (Spring Boot), Node.js, C# (.NET 9) |
+| **Frontend** | React 19, TypeScript, Vite, Fluent UI |
+| **Infrastructure** | AWS CDK, Azure Bicep, Docker, Kubernetes |
+| **Storage / Audit** | AWS S3, Azure Blob Storage, PostgreSQL |
+| **Observability** | OpenTelemetry, Azure Monitor, AWS CloudWatch |
+| **Voice** | Azure AI Speech Service — Voice Live |
 
-Copyright (c) Microsoft Corporation. All rights reserved.
+---
 
-## Trademarks
+## 🤝 Contributing
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft trademarks or logos is subject to and must follow [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general). Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship. Any use of third-party trademarks or logos are subject to those third-party's policies.
+We welcome contributions from the community! To get started:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes with clear messages
+4. Open a Pull Request with a description of your changes
+
+Please read our [Contributing Guidelines](CONTRIBUTING.md) and adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+---
+
+## 📚 Documentation & Resources
+
+- 📖 [Full Documentation](https://github.com/Vaibhavsable451/AegisAI-Enterprise-AI-Governance-Agent/wiki)
+- 🔒 [Security Policy](SECURITY.md)
+- 🆘 [Support & Issues](https://github.com/Vaibhavsable451/AegisAI-Enterprise-AI-Governance-Agent/issues)
+- 🌐 [Azure AI Speech Service — Voice Live](https://learn.microsoft.com/azure/ai-services/speech-service/voice-live)
+- 📜 [EU AI Act Overview](https://artificialintelligenceact.eu)
+- 🧭 [NIST AI RMF](https://www.nist.gov/system/files/documents/2023/01/26/AI%20RMF%201.0.pdf)
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙌 Acknowledgements
+
+Built with ❤️ by **Vaibhav Sable** and contributors.
+Powered by **Azure AI Foundry**, **AWS**, and the open-source community.
+
+---
+
+> © 2026 AegisAI Project. All rights reserved.
