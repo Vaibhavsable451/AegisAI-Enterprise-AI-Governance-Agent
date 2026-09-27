@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-const backendUrl = process.env.VITE_BACKEND_URL || 'http://localhost:8000';
+const backendUrl = process.env.VITE_BACKEND_URL || 'https://aegisai-hucpdtcvfxd2dnbs.westus3-01.azurewebsites.net';
 
 export default defineConfig({
   plugins: [react()],
@@ -20,13 +20,26 @@ export default defineConfig({
   server: {
     proxy: {
       '/ws': {
-        target: 'http://localhost:8000',
+        target: backendUrl,
         ws: true,
         changeOrigin: true,
+        secure: false,
       },
-      '/health': 'http://localhost:8000',
-      '/config': 'http://localhost:8000',
-      '/languages': 'http://localhost:8000',
+      '/health': {
+        target: backendUrl,
+        changeOrigin: true,
+        secure: false,
+      },
+      '/config': {
+        target: backendUrl,
+        changeOrigin: true,
+        secure: false,
+      },
+      '/languages': {
+        target: backendUrl,
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   build: {
