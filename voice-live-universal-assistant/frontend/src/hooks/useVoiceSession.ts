@@ -57,6 +57,9 @@ export function useVoiceSession() {
   const clientIdRef = useRef<string>(generateClientId());
   const stateRef = useRef<SessionState>(state);
   const inputModeRef = useRef<'voice' | 'text'>('voice');
+  // FIX: this ref was used in handleServerMessage but never declared,
+  // which would throw a ReferenceError the first time 'session_started' fired.
+  const pendingTextRef = useRef<string | null>(null);
 
   // Keep stateRef in sync so ws.onclose always reads the live value
   useEffect(() => { stateRef.current = state; }, [state]);
@@ -140,6 +143,10 @@ export function useVoiceSession() {
               setErrorMessage('Microphone access failed. Allow the mic in your browser, then start a new session.');
               setState('ended');
             });
+          }
+          if (pendingTextRef.current) {
+            sendWsMessage('send_text', { text: pendingTextRef.current });
+            pendingTextRef.current = null;
           }
           break;
 
