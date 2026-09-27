@@ -3,4 +3,5 @@ azure-identity
 aiohttp
 fastapi>=0.104.0
 uvicorn[standard]>=0.24.0
+gunicorn>=21.2.0
 python-dotenv
