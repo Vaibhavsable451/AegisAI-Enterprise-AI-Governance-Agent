@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'voice-live-universal-assistant/frontend/**'
+      - '.github/workflows/frontend_deploy.yml'
   workflow_dispatch:
 
 jobs:
@@ -15,8 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,7 +35,7 @@ jobs:
       - name: Build frontend
         working-directory: voice-live-universal-assistant/frontend
         env:
-          VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}
+          VITE_BACKEND_URL: https://aegisai-hucpdtcvfxd2dnbs.westus3-01.azurewebsites.net
         run: pnpm build
 
       - name: Deploy to Azure Static Web Apps
