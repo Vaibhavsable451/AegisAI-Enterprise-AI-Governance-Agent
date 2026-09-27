@@ -99,6 +99,6 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'AegisAI-Frontend'
+          app-name: 'aegisai-frontend-h7aha4ephncxhvg3'
           slot-name: 'Production'
           package: ./dist
