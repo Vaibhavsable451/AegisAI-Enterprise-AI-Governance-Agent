@@ -1,6 +1,10 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 8000;
 const PUBLIC_DIR = __dirname;
@@ -26,7 +30,6 @@ const server = http.createServer((req, res) => {
   let reqUrl = req.url.split('?')[0];
   let filePath = path.join(PUBLIC_DIR, reqUrl);
 
-  // Prevent directory traversal
   if (!filePath.startsWith(PUBLIC_DIR)) {
     res.writeHead(403);
     return res.end('Forbidden');
@@ -34,7 +37,6 @@ const server = http.createServer((req, res) => {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      // SPA Fallback: serve index.html for unknown routes
       filePath = path.join(PUBLIC_DIR, 'index.html');
     }
 
