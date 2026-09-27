@@ -3,6 +3,7 @@
 .env.*
 !.env.sample
 !.env.example
+!.env.production
 **/.env
 **/.env.local
 credentials.json

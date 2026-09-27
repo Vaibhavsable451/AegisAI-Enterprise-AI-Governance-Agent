@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm install --prefix voice-live-universal-assistant/frontend",
+  "buildCommand": "npm run build --prefix voice-live-universal-assistant/frontend",
+  "outputDirectory": "voice-live-universal-assistant/frontend/dist",
+  "rewrites": [
+    { "source": "/((?!assets/).*)", "destination": "/index.html" }
+  ]
+}

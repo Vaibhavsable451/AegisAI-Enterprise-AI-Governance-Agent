@@ -1,6 +1,9 @@
 node_modules/
 dist/
 .env
+!.env.sample
+!.env.example
+!.env.production
 *.pyc
 __pycache__/
 .venv/

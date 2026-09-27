@@ -1,0 +1,8 @@
+{
+  "name": "aegisai-enterprise-ai-governance-agent",
+  "private": true,
+  "description": "Vercel build wrapper for the Voice Live frontend",
+  "scripts": {
+    "build": "npm install --prefix voice-live-universal-assistant/frontend && npm run build --prefix voice-live-universal-assistant/frontend"
+  }
+}
