@@ -17,10 +17,10 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '20'
 
@@ -41,14 +41,14 @@ jobs:
           echo '{"name":"voicelive-web-frontend","private":true,"version":"1.0.0","type":"module","main":"server.js","scripts":{"start":"node server.js"}}' > dist/package.json
 
       - name: Login to Azure
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_96C7700EBF964395AC570D8AFC235B28 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_358B791DEA35497F9C6A47E2DAEFCE04 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D214B478741748C7AB1EDFD4251D72B7 }}
 
       - name: Configure Azure App Service Settings
-        uses: azure/CLI@v2
+        uses: azure/CLI@v3
         with:
           inlineScript: |
             az webapp config appsettings set --name aegisai-frontend-h7aha4ephncxhvg3 --settings SCM_DO_BUILD_DURING_DEPLOYMENT=false ENABLE_ORYX_BUILD=false
