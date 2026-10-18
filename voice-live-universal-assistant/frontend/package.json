@@ -18,7 +18,7 @@
     "scheduler": "^0.28.0"
   },
   "devDependencies": {
-    "@fluentui/react-icons": "^2.0.320",
+    "@fluentui/react-icons": "^2.0.344",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
